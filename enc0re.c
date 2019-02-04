@@ -37,65 +37,7 @@
 #include <getopt.h>
 #include <libgen.h>
 
-static char *word_to_string(char *buf) {
-  char str[17];
-  sprintf(str,"\\x%02x\\x%02x\\x%02x\\x%02x", (unsigned char)buf[0], (unsigned char)buf[1], (unsigned char)buf[2], (unsigned char)buf[3]);
-  return strdup(str);
-}
-
-static char *word_to_asm(char *buf) {
-  char str[17];
-  sprintf(str,"0x%02x%02x%02x%02x", (unsigned char)buf[0], (unsigned char)buf[1], (unsigned char)buf[2], (unsigned char)buf[3]);
-  return strdup(str);
-}
-
-static int print_word(char *buf) {
-  return fprintf(stdout, "\\x%02x\\x%02x\\x%02x\\x%02x\n", 
-      (unsigned char)buf[0],
-      (unsigned char)buf[1],
-      (unsigned char)buf[2],
-      (unsigned char)buf[3]);
-}
-
-static int read_word(char *buf, FILE *fp){
-  int ret;
-
-  bzero((void *)buf, 4);
-  if ((ret = fread(buf, 4, sizeof(char), fp)) < 0 ){
-    perror("fread()");
-    return -1;
-  }
-
-  return ret;
-}
-
-static int read_word_and_pad(char *buf, int count, FILE *fp){
-  int ret;
-
-  if (count >= 4) 
-    return 0;
-
-  buf[0]=0x90;
-  buf[1]=0x90;
-  buf[2]=0x90;
-  buf[3]=0x90;
-  buf[4]=0x00;
-
-  if ((ret = fread(buf, count, sizeof(char), fp)) < 0 ){
-    perror("fread()");
-    return -1;
-  }
-  
-  return ret;
-}
-
-static void xor_word(char *dest, char *src, char *key) {
-  for (int z=0; z<5; z++) 
-    dest[z] = src[z] ^ key[z];
-
-  return ;
-
-}
+#include "enc0re_utils.h"
 
 
 static int verbose_flag;

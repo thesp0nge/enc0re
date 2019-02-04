@@ -131,14 +131,14 @@ int main(int argc, char **argv) {
   printf("enc0ded : %50s (%ld)\n", enc0ded, strlen(enc0ded) /4);
 
 
-  printf("Decoding asm stub\n------- 8< ---- 8< ---- 8< -------\n");
+  printf("Decoding win32 asm flavour stub\n------- 8< ---- 8< ---- 8< -------\n");
   printf("mov eax, startaddress\n");
   printf("mov ebx, %s\n", word_to_asm(key));
   printf("loop:\n");
   printf("xor dword ptr ds:[eax], ebx\n");
   printf("add eax, 4\n");
   printf("cmp eax, endaddress\n");
-  printf("jle loop\n");
+  printf("jle loop (\x7e\xf4 is -12 2 complement)\n");
   printf("; asm instructions removed from program start\n");
   printf("; JMP program hijacked entrypoint\n");
   printf("------- 8< ---- 8< ---- 8< -------\n");
